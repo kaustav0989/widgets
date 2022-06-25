@@ -1,11 +1,30 @@
 import React,{useEffect, useState} from "react";
+import axios from "axios";
 
 const Search = () => {
 
-    console.log('I RUN ON EVERY RENDER');
-    const [term,setTerm] = useState('');
+    //State to recognize the search term
+    const [term,setTerm] = useState('programming');
+    //State to recognize the search results
+    const [results,setResults] = useState([]);
+    console.log(results);
+
     useEffect(() => {
-        console.log('I RUN ON EVERY RERENDER OF DATA CHANGE');
+        //Async function definition and direct call 
+        ( async () => {
+            const response = await axios.get('https://en.wikipedia.org/w/api.php',{
+                            params : {
+                                action :'query',
+                                list : 'search',
+                                origin : '*',
+                                format: 'json',
+                                srsearch: term
+                            }
+            });
+
+            //setting the state
+            setResults(response.data.query.search);
+        })();
     },[term]);
 
     const termChange = (e) => {
