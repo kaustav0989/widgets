@@ -1,6 +1,8 @@
 import React from "react";
 import Accordion from "./Components/Accordion";
+import Search from "./Components/Search";
 
+// Dummy Array of Objects
 const items = [
     {
         title : "Hello",
@@ -20,7 +22,8 @@ const App = () => {
     return (
         <div>
             <br></br>
-            <Accordion items = {items} />
+            {/* <Accordion items = {items} /> */}
+            <Search />
         </div>
     );
 }
