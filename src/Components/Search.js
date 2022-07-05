@@ -29,9 +29,8 @@ const Search = () => {
     });
 
     useEffect(() => {
-        if(term)
-        //Async function definition and direct call 
-        ( async () => {
+        //Async function definition
+        const search = ( async () => {
             const response = await axios.get('https://en.wikipedia.org/w/api.php',{
                             params : {
                                 action :'query',
@@ -44,7 +43,11 @@ const Search = () => {
 
             //setting the state
             setResults(response.data.query.search);
-        })();
+        });
+        const timerId = setTimeout( () => {
+            if(term) 
+            search();
+        },500);
     },[term]);
 
     const termChange = (e) => {
