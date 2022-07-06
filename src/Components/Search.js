@@ -30,7 +30,7 @@ const Search = () => {
 
     useEffect(() => {
         //Async function definition
-        const search = ( async () => {
+        const search =  async () => {
             const response = await axios.get('https://en.wikipedia.org/w/api.php',{
                             params : {
                                 action :'query',
@@ -43,11 +43,23 @@ const Search = () => {
 
             //setting the state
             setResults(response.data.query.search);
-        });
-        const timerId = setTimeout( () => {
-            if(term) 
+        };
+
+        //checking whether it's the first render or not
+        if( term && !results.length ){
             search();
-        },500);
+        }else{
+            const timerId = setTimeout( () => {
+                if(term) 
+                search();
+            },1000);
+    
+            //using useEffect() cleanup function to clear the last timer.....
+            //useEffect() first argument function can only return a function
+            return () => {
+                clearTimeout(timerId);
+            }
+        }
     },[term]);
 
     const termChange = (e) => {
