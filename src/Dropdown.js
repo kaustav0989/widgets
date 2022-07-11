@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef} from "react";
 
-const Dropdown = ( {options,selected,onSelectedChange} ) => {
+const Dropdown = ( {options,selected,onSelectedChange,label} ) => {
     //state for storing the dropdown is clicked or not as true,false
     const [open,setOpen] = useState(false);
     //using ref to check the current DOM element
@@ -25,6 +25,8 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
         }
             
     },[]);
+
+    //This code snippet used to show the each div for render
     const renderedOptions = options.map( (option) => {
 
         //If the current value is showing, don't show that on dropdown
@@ -45,7 +47,7 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
         <React.Fragment>
         <div ref={ref}  className="ui form">
             <div className="field">
-                <label className="label">Select a Color</label>
+                <label className="label">{label}</label>
                 <div onClick={() => setOpen(!open)} 
                     className={`ui selection dropdown ${open ? 'visible active' : ''}`}>
                     <i className="dropdown icon"></i>
