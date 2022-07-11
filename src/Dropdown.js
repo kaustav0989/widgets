@@ -1,8 +1,23 @@
-import React,{useState} from "react";
+import React,{useState,useEffect,useRef} from "react";
 
 const Dropdown = ( {options,selected,onSelectedChange} ) => {
     //state for storing the dropdown is clicked or not as true,false
     const [open,setOpen] = useState(false);
+    //using ref to check the current DOM element
+    const ref = useRef();
+
+    //Adding manual event listener to the body via useEffect() to use on initial render only
+
+    useEffect( () => {
+        document.body.addEventListener('click', (event) => {
+            //checking that the current ref is containing the dropdown component
+            //if contains do nothing let the dropdown component logic work
+            if( ref.current.contains(event.target) ){
+                return;
+            }
+            setOpen(false);
+        },{capture:true});
+    },[]);
     const renderedOptions = options.map( (option) => {
 
         //If the current value is showing, don't show that on dropdown
@@ -14,12 +29,13 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
             className="item"
             onClick={() => onSelectedChange(option)}
             >
-                {option.label}
+            {option.label}
             </div>
         );
     });
+    //console.log(ref.current);
     return (
-        <div className="ui form">
+        <div ref={ref}  className="ui form">
             <div className="field">
                 <label className="label">Select a Color</label>
                 <div onClick={() => setOpen(!open)} 
