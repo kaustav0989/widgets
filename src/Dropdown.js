@@ -7,16 +7,23 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
     const ref = useRef();
 
     //Adding manual event listener to the body via useEffect() to use on initial render only
+    const onBodyClick = (event) => {
+        //checking that the current ref is containing the dropdown component
+        //if contains do nothing let the dropdown component logic work
+        if( ref.current.contains(event.target) ){
+            return;
+        }
+        setOpen(false);
+    };
 
     useEffect( () => {
-        document.body.addEventListener('click', (event) => {
-            //checking that the current ref is containing the dropdown component
-            //if contains do nothing let the dropdown component logic work
-            if( ref.current.contains(event.target) ){
-                return;
-            }
-            setOpen(false);
-        },{capture:true});
+        document.body.addEventListener('click',onBodyClick ,{capture:true});
+
+        //cleanup function for remove bodyclick event in time of dropdown not showing
+        return () => {
+            document.body.removeEventListener('click',onBodyClick ,{capture:true});
+        }
+            
     },[]);
     const renderedOptions = options.map( (option) => {
 
@@ -35,6 +42,7 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
     });
     //console.log(ref.current);
     return (
+        <React.Fragment>
         <div ref={ref}  className="ui form">
             <div className="field">
                 <label className="label">Select a Color</label>
@@ -48,6 +56,8 @@ const Dropdown = ( {options,selected,onSelectedChange} ) => {
                 </div>
             </div>
         </div>
+        <p style={{color:`${selected.value}`}}>{selected.label}</p>
+        </React.Fragment>
     );
 }
 
