@@ -3,6 +3,7 @@ import Accordion from "./Components/Accordion";
 import Search from "./Components/Search";
 import Dropdown from "./Dropdown";
 import Translate from "./Components/Translate";
+import Route from "./Components/Route";
 
 // Dummy Array of Objects
 const items = [
@@ -76,10 +77,9 @@ const App = () => {
                 onSelectedChange={setSelected}/> : null
             }  */}
 
-            {showAccordion()}
-            {showList()}
-            {showDropdown()}
-            {showTranslation()}       
+            <Route path="/">
+                <Accordion items={items} />
+            </Route>       
         </div>
     );
 }
