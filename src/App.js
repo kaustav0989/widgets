@@ -4,6 +4,7 @@ import Search from "./Components/Search";
 import Dropdown from "./Dropdown";
 import Translate from "./Components/Translate";
 import Route from "./Components/Route";
+import Header from "./Components/Header";
 
 // Dummy Array of Objects
 const items = [
@@ -38,48 +39,29 @@ const options = [
 
 ];
 
-const showAccordion = () => {
-    if( window.location.pathname === '/' ){
-        return <Accordion items = {items} />
-    }
-}
-
-const showList = () => {
-    if( window.location.pathname === '/list' ){
-        return <Search />
-    }
-}
-
-const showDropdown = () => {
-    if( window.location.pathname === '/dropdown' ){
-        return <Dropdown />
-    }
-}
-const showTranslation = () => {
-    if( window.location.pathname === '/translate' ){
-        return <Translate /> 
-    }
-}
 const App = () => {
-    //const [selected,setSelected] = useState(options[0]);
+    const [selected,setSelected] = useState(options[0]);
     //const [showDropdown,setShowDropdown] = useState(true);
     return (
         <div>
-            <br></br>
-            {/* <Accordion items = {items} /> */}
-            {/* <Search /> */}
-            {/*<button onClick={() => setShowDropdown(!showDropdown)}>Toggle Dropdown</button>
-            {
-                showDropdown ? 
-                <Dropdown 
-                options={options}
-                selected={selected}
-                onSelectedChange={setSelected}/> : null
-            }  */}
-
+            <Header />
             <Route path="/">
                 <Accordion items={items} />
-            </Route>       
+            </Route>
+
+            <Route path="/translate">
+                <Translate />
+            </Route>
+
+            <Route path="/dropdown">
+                <Dropdown options={options}
+                selected={selected}
+                onSelectedChange={setSelected}/>
+            </Route>
+
+            <Route path="/list">
+                <Search />
+            </Route>
         </div>
     );
 }
